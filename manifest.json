@@ -1,12 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "Array Paster",
+  "name": "Array Paster on NotebookLM",
   "version": "1.0",
   "description": "複数の文字列をキューに登録し、右クリックメニューから貼り付けるための拡張機能",
   "action": {
     "default_popup": "popup.html"
   },
-  "permissions": ["contextMenus", "storage", "activeTab", "scripting"],
+  "permissions": ["contextMenus", "storage", "activeTab", "scripting", "tabs"],
   "background": {
     "service_worker": "background.js"
   }
