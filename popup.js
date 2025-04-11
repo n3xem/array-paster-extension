@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const addBtn = document.getElementById("addBtn");
   const clearBtn = document.getElementById("clearBtn");
   const stringsContainer = document.getElementById("stringsContainer");
+  const notebookBtn = document.getElementById("notebookBtn");
 
   // 保存された文字列を読み込む
   loadStrings();
@@ -41,6 +42,52 @@ document.addEventListener("DOMContentLoaded", function () {
     chrome.storage.local.set({ strings: [] }, function () {
       // 表示を更新
       loadStrings();
+    });
+  });
+
+  // Google Notebookボタンのイベントリスナー
+  notebookBtn.addEventListener("click", function () {
+    console.log("Google Notebookボタンがクリックされました");
+
+    // 現在アクティブなタブを取得
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      if (!tabs || tabs.length === 0) {
+        console.error("アクティブなタブが見つかりませんでした");
+        alert("アクティブなタブが見つかりませんでした");
+        return;
+      }
+
+      const activeTab = tabs[0];
+      console.log("アクティブなタブ:", activeTab.url);
+
+      // Google Notebookのページであるか確認
+      if (activeTab.url && activeTab.url.includes("notebooklm.google.com")) {
+        console.log("Google Notebookページを確認。メッセージを送信します");
+
+        // 自動貼り付け処理を開始
+        chrome.runtime.sendMessage(
+          {
+            action: "startNotebookAutoPaste",
+            tabId: activeTab.id,
+          },
+          (response) => {
+            if (chrome.runtime.lastError) {
+              console.error("メッセージ送信エラー:", chrome.runtime.lastError);
+              alert(
+                "エラーが発生しました: " + chrome.runtime.lastError.message
+              );
+            } else {
+              console.log("メッセージが正常に送信されました", response);
+            }
+          }
+        );
+
+        // ポップアップを閉じる
+        window.close();
+      } else {
+        console.log("Google Notebookページではありません");
+        alert("このボタンはGoogle Notebookのページでのみ使用できます。");
+      }
     });
   });
 

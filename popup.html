@@ -72,6 +72,18 @@
         #clearBtn {
             background-color: #f44336;
         }
+
+        .notebook-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #ccc;
+        }
+
+        #notebookBtn {
+            background-color: #2196F3;
+            width: 100%;
+            margin-top: 8px;
+        }
     </style>
 </head>
 
@@ -86,6 +98,12 @@
     <h3>登録済み文字列</h3>
     <div id="stringsContainer" class="strings-container">
         <!-- 登録された文字列がここに表示されます -->
+    </div>
+
+    <div class="notebook-section">
+        <h3>Google Notebook用機能</h3>
+        <p>Google Notebookでこのボタンをクリックすると、キューのURLを自動で挿入します</p>
+        <button id="notebookBtn">Google Notebookで自動貼り付けを開始</button>
     </div>
 
     <script src="popup.js"></script>
